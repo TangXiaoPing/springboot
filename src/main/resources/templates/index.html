@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>完整demo</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <script type="text/javascript" charset="utf-8" src="ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="ueditor.all.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="lang/zh-cn/zh-cn.js"></script>
+
+    <style type="text/css">
+        div {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <script id="editor" type="text/plain" name="content"></script>
+    </div>
+    <button onclick="btn()">提交</button>
+
+    <script type="text/javascript">
+        var ue = UE.getEditor('editor', {
+            initialFrameHeight: 300,
+            initialFrameWeight: 100
+        });
+        UE.Editor.prototype._bkGetActionUrl = UE.Editor.prototype.getActionUrl;
+        UE.Editor.prototype.getActionUrl = function(action) {
+            if (action == 'uploadimage' || action == 'uploadscrawl') {
+                return 'http://localhost:8088/upload/ueditor/imageUpload';
+            } else if (action == 'uploadvideo') {
+                return '#';
+            } else {
+                return this._bkGetActionUrl.call(this, action);
+            }
+        }
+        function btn(){
+            console.log(ue.getContent())
+        }
+    </script>
+</body>
+</html>
