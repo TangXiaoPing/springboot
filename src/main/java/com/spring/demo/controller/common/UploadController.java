@@ -1,9 +1,11 @@
-package com.spring.demo.controller;
+package com.spring.demo.controller.common;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.spring.demo.util.UeditorResult;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,8 +20,7 @@ import java.util.Calendar;
 @RequestMapping("/upload")
 public class UploadController {
 
-    @RequestMapping(value = "/ueditor")
-    @ResponseBody
+    @RequestMapping(value = "/ueditor",method = RequestMethod.POST)
     public String ueditor(HttpServletRequest request, HttpServletResponse response) {
 
         String s = "{\n" +
@@ -36,22 +37,7 @@ public class UploadController {
 
     }
 
-    /*@RequestMapping(value = "/imageUpload")
-    @ResponseBody
-    public String imgUpdate(MultipartFile[] multipartFiles) {
-        if(multipartFiles != null && multipartFiles.length != 0){
-            if(null != multipartFiles && multipartFiles.length > 0){
-                //遍历并保存文件
-                for(MultipartFile file : multipartFiles){
-                    System.out.println(file.getName()+"--"+file.getOriginalFilename());
-                }
-            }
-        }
-        return "ok";
-    }*/
-
-    @RequestMapping(value = "/ueditor/imageUpload")
-    @ResponseBody
+    @RequestMapping(value = "/ueditor/imageUpload",method = RequestMethod.POST)
     public String imgUpdate(MultipartFile file) {
         if (file != null) {
             System.out.println(file.getName() + "--" + file.getOriginalFilename());

@@ -17,5 +17,4 @@ public class TestRestController {
     public String testGet(){
         return AliyunOssProperties.SPRING_FILE_ACCESS_KEY_ID;
     }
-
 }
