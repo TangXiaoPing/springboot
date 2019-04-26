@@ -187,6 +187,12 @@
             <version>3.17</version>
         </dependency>
 
+        <!--提供实体set,get方法-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
