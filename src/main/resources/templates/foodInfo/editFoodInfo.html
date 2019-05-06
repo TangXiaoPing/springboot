@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='wyait后台管理'"></head>
+
+<body>
+<div th:fragment="role">
+
+    <form id="editFoodInfo" class="layui-form" action="#" method="post">
+        <input type="hidden" id="foodInfoId" name="foodInfoId" th:value="${foodInfo.foodInfoId}"/>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品名称：</label>
+            <div class="layui-input-block">
+                <input type="text" name="foodInfoName" lay-verify="required" autocomplete="off" class="layui-input"
+                       th:value="${foodInfo.foodInfoName}"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <input type="hidden" id="imageUrl" name="imageUrl" th:value="${foodInfo.images}"/>
+            <label class="layui-form-label">上传图片：</label>
+            <div class="layui-input-inline">
+                <button type="button" class="layui-btn" id="upload">
+                    <i class="layui-icon">&#xe67c;</i>上传图片
+                </button>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-block">
+                <label class="layui-form-label">商品图片：</label>
+                <div class="layui-table-cell laytable-cell-1-avatar">
+                    <img id="showImage" style="height: 100%" th:src="${foodInfo.images}">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品价格：</label>
+            <div class="layui-input-block">
+                <input type="text" name="showPrice" lay-verify="required" autocomplete="off" class="layui-input"
+                       th:value="${foodInfo.price}+'RMB'"/>
+            </div>
+            <input type="hidden" name="price" lay-verify="required" autocomplete="off" class="layui-input"
+                   th:value="${foodInfo.price}"/>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品重量：</label>
+            <div class="layui-input-block">
+                <input type="text" name="foodWeight" lay-verify="required" autocomplete="off" class="layui-input"
+                       th:value="${foodInfo.foodWeight}"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">一级分类：</label>
+            <div class="layui-input-inline">
+                <select id="oneMenuId" name="oneMenuId" lay-filter="oneMenuId">
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">二级分类：</label>
+            <div class="layui-input-inline">
+                <select id="secondMenuId" name="secondMenuId" lay-filter="secondMenuId">
+                    <option selected="selected" th:value="${secondMenu.secondMenuId}"
+                            th:text="${secondMenu.secondMenuName}"></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品描述：</label>
+            <div class="layui-input-block">
+                <input type="text" name="description" lay-verify="required" autocomplete="off" class="layui-input"
+                       th:value="${foodInfo.description}"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否上架：</label>
+            <div class="layui-input-block" th:if="${foodInfo.foodInfoStatus==1}">
+                <input type="radio" name="foodInfoStatus" value="1" title="是" checked="checked">
+                <input type="radio" name="foodInfoStatus" value="0" title="否">
+            </div>
+
+            <div class="layui-input-block" th:if="${foodInfo.foodInfoStatus==0}">
+                <input type="radio" name="foodInfoStatus" value="1" title="是">
+                <input type="radio" name="foodInfoStatus" value="0" title="否" checked="checked">
+            </div>
+        </div>
+    </form>
+    <div class="layui-form-item">
+        <input type="button" name="editBtn" id="editBtn" class="layui-btn" value="确定"/>
+    </div>
+    <input type="hidden" id="selectedOneMenuId" th:value="${oneMenu.oneMenuId}">
+    <input type="hidden" id="selectedSecondMenuId" th:value="${secondMenu.secondMenuId}">
+</div>
+<script>
+    var img_show = null; // tips提示
+    $('#showImage').hover(function () {
+        var kd = $(this).width();
+        kd1 = kd * 3;          //图片放大倍数
+        kd2 = kd * 3 + 30;       //图片放大倍数
+        var img = "<img class='img_msg' src='" + $(this).attr('src') + "' style='width:" + kd1 + "px;' />";
+        img_show = layer.tips(img, this, {
+            tips: [2, 'rgba(41,41,41,.5)']
+            , area: [kd2 + 'px']
+        });
+    }, function () {
+        layer.close(img_show);
+    });
+    $('#showImage').attr('style', 'max-width:70px;display:block!important');
+
+    $("#editBtn").click(function () {
+        $.post("/foodInfo/editFoodInfoById", $("#editFoodInfo").serialize(), function (data) {
+            if (data) {
+                layer.alert("修改成功", function (index) {
+                    window.parent.location.reload();//刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                    parent.layer.close(index); //再执行关闭
+                });
+            } else {
+                layer.alert("修改失败，请检查参数是否正确");
+            }
+        }).error(function () {
+            layer.alert("修改失败，请检查参数是否正确");
+        });
+    })
+
+    layui.use('form', function () {
+        var form = layui.form;
+        $.ajax({
+            url: '/foodInfo/getOneMenuList',
+            type: "get",
+            dataType: "json",
+            contentType: "application/json",
+            async: false,
+            success: function (result) {
+                var oneMenuId = $("#selectedOneMenuId").val();
+                var oneMeunList = result.data;
+                var strs = "<option value = ''>" + "请选择" + "</option>";
+                for (var x in oneMeunList) {
+                    if (oneMenuId == oneMeunList[x].oneMenuId) {
+                        strs += '<option value = "' + oneMeunList[x].oneMenuId + '" selected="selected">' + oneMeunList[x].oneMenuName + '</option>'
+                    } else {
+                        strs += '<option value = "' + oneMeunList[x].oneMenuId + '">' + oneMeunList[x].oneMenuName + '</option>'
+                    }
+                }
+                $("#oneMenuId").html(strs);
+                form.render('select');//最后记得渲染
+            }
+        });
+
+        //添加layui的监听事件
+
+        form.on('select(oneMenuId)', function (data) {
+            var oneMenuId = $("#oneMenuId").val();//获得选中的option的值
+            $.ajax({
+                url: '/foodInfo/getSecondMenuList?oneMenuId=' + oneMenuId,//带参数将这个传到后台条件查询方法里面
+                type: "get",
+                dataType: "json",
+                contentType: "application/json",
+                async: false,//同步
+                success: function (result) {
+                    var secondMenuId = $("#selectedSecondMenuId").val();
+                    var secondMeunList = result.data;
+                    var strs = "<option value = ''>" + "请选择" + "</option>";
+                    for (var x in secondMeunList) {
+                        if (secondMenuId == secondMeunList[x].secondMenuId) {
+                            strs += '<option value = "' + secondMeunList[x].secondMenuId + '" selected="selected">' + secondMeunList[x].secondMenuName + '</option>'
+                        } else {
+                            strs += '<option value = "' + secondMeunList[x].secondMenuId + '">' + secondMeunList[x].secondMenuName + '</option>'
+                        }
+                    }
+                    $("#secondMenuId").html(strs);
+                }
+            });
+            form.render('select');//最后记得渲染
+        });
+    });
+
+    layui.use('upload', function () {
+        var upload = layui.upload;
+        //执行实例
+        var uploadInst = upload.render({
+            elem: '#upload' //绑定元素
+            , url: '/upload/layUiImageUpload' //上传接口
+            , done: function (res) {
+                //上传完毕回调
+                layer.msg("图片上传成功");
+                $("#showImage").attr("src", res.url);
+                $("#imageUrl").val(res.url);
+            }
+            , error: function () {
+                layer.alert("图片上传失败");
+            }
+        });
+    });
+</script>
+</body>
+</html>
