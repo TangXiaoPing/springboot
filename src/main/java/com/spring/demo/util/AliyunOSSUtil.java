@@ -8,15 +8,17 @@ import com.aliyun.oss.model.CreateBucketRequest;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.aliyun.oss.model.PutObjectResult;
 import com.spring.demo.properties.AliyunOssProperties;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.time.DateTimeException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.UUID;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class AliyunOSSUtil {
+    private static final Logger logger = LoggerFactory.getLogger(AliyunOSSUtil.class);
+
 
     private static final String endpoint;
     private static final String accessKeyId;
@@ -32,17 +34,8 @@ public class AliyunOSSUtil {
         fileHost=AliyunOssProperties.SPRING_FILE_FILE_HOST;
     }
 
-    public static String upload(File file){
-        //logger.info("=========>OSS文件上传开始："+file.getName());
-        LocalDateTime dateStr = LocalDateTime.now();
-        try{
-            DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-dd-MM");
-            String landing = dateStr.format(format);
-            System.out.printf("Arriving at : %s %n", landing);
-        } catch(DateTimeException ex) {
-            System.out.printf("%s can't be formatted!%n", dateStr);
-            ex.printStackTrace();
-        }
+    public static String upload(File file,String fileUrl){
+        logger.info("=========>OSS文件上传开始："+file.getName());
 
         if(null == file){
             return null;
@@ -58,9 +51,55 @@ public class AliyunOSSUtil {
                 ossClient.createBucket(createBucketRequest);
             }
             //创建文件路径
-            String fileUrl = dateStr + "/" + UUID.randomUUID().toString().replace("-","")+"-"+file.getName();
+            //String fileUrl = dateStr + "/" + UUID.randomUUID().toString().replace("-","")+"-"+file.getName();
             //上传文件
             PutObjectResult result = ossClient.putObject(new PutObjectRequest(bucketName, fileUrl, file));
+            //设置权限 这里是公开读
+            ossClient.setBucketAcl(bucketName,CannedAccessControlList.PublicRead);
+            if(null != result){
+                return fileHost+fileUrl;
+            }
+        }catch (OSSException oe){
+
+        }catch (ClientException ce){
+
+        }finally {
+            //关闭
+            ossClient.shutdown();
+        }
+        return null;
+    }
+
+    public static void inputStreamToFile(InputStream ins, File file) {
+        try {
+            OutputStream os = new FileOutputStream(file);
+            int bytesRead = 0;
+            byte[] buffer = new byte[8192];
+            while ((bytesRead = ins.read(buffer, 0, 8192)) != -1) {
+                os.write(buffer, 0, bytesRead);
+            }
+            os.close();
+            ins.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String upload(InputStream inputStream, String fileUrl) {
+        logger.info("=========>OSS文件上传开始");
+        OSSClient ossClient = new OSSClient(endpoint,accessKeyId,accessKeySecret);
+        try {
+            //容器不存在，就创建
+            if(! ossClient.doesBucketExist(bucketName)){
+                ossClient.createBucket(bucketName);
+                CreateBucketRequest createBucketRequest = new CreateBucketRequest(bucketName);
+                createBucketRequest.setCannedACL(CannedAccessControlList.PublicRead);
+                ossClient.createBucket(createBucketRequest);
+            }
+            //创建文件路径
+            //String fileUrl =UUID.randomUUID().toString().replace("-","");
+            //上传文件
+            PutObjectResult result = ossClient.putObject(new PutObjectRequest(bucketName, fileUrl, inputStream));
             //设置权限 这里是公开读
             ossClient.setBucketAcl(bucketName,CannedAccessControlList.PublicRead);
             if(null != result){
