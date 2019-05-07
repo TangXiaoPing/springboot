@@ -5,7 +5,8 @@ $(function () {
             , form = layui.form;
 
         tableIns = table.render({
-            elem: '#visitorList'
+            id: "visitorTableId"
+            , elem: '#visitorList'
             , url: '/visitor/getVisitorList'
             , method: 'get' //默认：get请求
             , cellMinWidth: 80
@@ -20,7 +21,8 @@ $(function () {
                 , dataName: 'list' //数据列表的字段名称，默认：data
             }
             , cols: [[ //表头
-                {field: 'visitorName', title: '访问者姓名', sort: true, fixed: 'left'}
+                {type: 'checkbox'}
+                , {field: 'visitorName', title: '访问者姓名', sort: true}
                 , {field: 'visitorPhone', title: '访问者电话'}
                 , {field: 'dormRoomId', title: '访问宿舍id'}
                 , {field: 'studentId', title: '访问学生id'}
@@ -55,44 +57,47 @@ $(function () {
         });
 
         //监听工具条
-        table.on('tool(foodInfoTable)', function (obj) {
+        table.on('tool(visitorTable)', function (obj) {
             var data = obj.data;
             $("#appId").val(data.id);
-            if (obj.event === 'editFoodInfo') {
+            if (obj.event === 'editVisitor') {
                 layer.open({
                     type: 2,
-                    title: '编辑商品',
+                    title: '编辑访客',
                     shadeClose: true,
                     shade: 0.8,
                     area: ['60%', '70%'],
-                    content: '/foodInfo/toEditFoodInfo?foodInfoId=' + data.foodInfoId
+                    content: '/visitor/toEditVisitor?visitorId=' + data.id
                 });
             }
 
-            if (obj.event === 'lookFoodInfo') {
+            if (obj.event === 'lookVisitor') {
                 layer.open({
                     type: 2,
-                    title: '查看商品',
+                    title: '查看访客',
                     shadeClose: true,
                     shade: 0.8,
                     area: ['60%', '70%'],
-                    content: '/foodInfo/getFoodInfoById?foodInfoId=' + data.foodInfoId
+                    content: '/visitor/lookVisitor?visitorId=' + data.id
                 });
             }
 
-            if (obj.event === 'delFoodInfo') {
-                $.post("/foodInfo/delFoodInfoById", {'foodInfoId': data.foodInfoId}, function (data) {
-                    if (data.success) {
-                        layer.alert("删除成功", function (index) {
-                            window.parent.location.reload();//刷新父页面
-                            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-                            parent.layer.close(index); //再执行关闭
-                        });
-                    } else {
-                        layer.alert(data.message);
-                    }
-                }).error(function () {
-                    layer.alert("删除失败");
+            if (obj.event === 'delVisitor') {
+                layer.confirm('您确定删除吗？', {
+                    btn: ['确定', '取消'] //按钮
+                }, function () {
+                    $.post("/visitor/delVisitorById", {'visitorId': data.id}, function (data) {
+                        if (data.success) {
+                            layer.alert("删除成功", function (index) {
+                                layer.close(index); //再执行关闭
+                                load(obj);
+                            });
+                        } else {
+                            layer.alert(data.message);
+                        }
+                    });
+                }, function () {
+                    return;
                 });
             }
         });
@@ -110,23 +115,6 @@ $(function () {
         });
     });
 });
-
-function hoverOpenImg() {
-    var img_show = null; // tips提示
-    $('td img').hover(function () {
-        var kd = $(this).width();
-        kd1 = kd * 3;          //图片放大倍数
-        kd2 = kd * 3 + 30;       //图片放大倍数
-        var img = "<img class='img_msg' src='" + $(this).attr('src') + "' style='width:" + kd1 + "px;' />";
-        img_show = layer.tips(img, this, {
-            tips: [2, 'rgba(41,41,41,.5)']
-            , area: [kd2 + 'px']
-        });
-    }, function () {
-        layer.close(img_show);
-    });
-    $('td img').attr('style', 'max-width:70px;display:block!important');
-}
 
 function Format(datetime, fmt) {
     if (parseInt(datetime) == datetime) {

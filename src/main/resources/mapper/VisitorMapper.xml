@@ -5,7 +5,7 @@
         select * from visitor
         where 1=1
         <if test="visitorName!=null and visitorName!=''">
-            visitor_name=#{visitorName}
+         and visitor_name=#{visitorName}
         </if>
     </select>
 </mapper>

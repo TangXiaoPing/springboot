@@ -21,7 +21,7 @@ public class VisitorServiceImpl extends ServiceImpl<VisitorMapper, Visitor> impl
 
     @Override
     public PageDataResult getPageVisitorList(Integer page, Integer limit, String visitorName) {
-        Page<Visitor> p = new Page<>(page, limit, visitorName);
+        Page<Visitor> p = new Page<>(page, limit);
         p.setRecords(baseMapper.getPageVisitorList(p, visitorName));
         PageDataResult pdr = new PageDataResult(p.getTotal(), p.getRecords());
         return pdr;

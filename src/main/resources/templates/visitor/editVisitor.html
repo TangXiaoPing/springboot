@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='wyait后台管理'"></head>
+
+<body>
+<div th:fragment="role">
+
+    <form id="editVisitor" class="layui-form" action="#" method="post">
+        <input th:value="${visitor.id}" name="id" type="hidden"/>
+        <div class="layui-form-item">
+            <label class="layui-form-label">来访姓名：</label>
+            <div class="layui-input-block">
+                <input type="text" name="visitorName" lay-verify="required" autocomplete="off" class="layui-input"
+                       th:value="${visitor.visitorName}"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">来访电话：</label>
+            <div class="layui-input-block">
+                <input type="text" name="visitorPhone" lay-verify="required" autocomplete="off" class="layui-input"
+                       th:value="${visitor.visitorPhone}"/>
+            </div>
+        </div>
+
+        <input type="hidden" id="dormRoomIded" name="dormRoomIded" th:value="${visitor.dormRoomId}"/>
+        <input type="hidden" id="studentIded" name="studentIded" th:value="${visitor.studentId}"/>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">访问宿舍：</label>
+            <div class="layui-input-inline">
+                <select id="dormRoomId" name="dormRoomId" lay-filter="dormRoomId">
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">访问学生：</label>
+            <div class="layui-input-inline">
+                <select id="studentId" name="studentId" lay-filter="studentId">
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">离开时间：</label>
+            <div class="layui-inline">
+                <input type="text" name="goAwayTime" class="layui-input" id="goAwayTime"
+                       th:value="${#dates.format(visitor.goAwayTime, 'yyyy-MM-dd')}">
+            </div>
+        </div>
+
+    </form>
+
+    <div class="layui-form-item">
+        <input type="button" name="editBtn" id="editBtn" class="layui-btn" value="确定"/>
+    </div>
+
+</div>
+<script>
+    $("#editBtn").click(function () {
+        $.post("/visitor/editVisitor", $("#editVisitor").serialize(), function (data) {
+            if (data.success) {
+                layer.alert("修改成功", function (index) {
+                    window.parent.location.reload();//刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                    parent.layer.close(index); //再执行关闭
+                });
+            } else {
+                layer.alert(data.message);
+            }
+        });
+    })
+
+    layui.use('form', function () {
+        var form = layui.form;
+        $.ajax({
+            url: '/dormRoom/getDormRoomList',
+            type: "get",
+            dataType: "json",
+            contentType: "application/json",
+            async: false,
+            success: function (result) {
+                var dormRoomIded = $("#dormRoomIded").val()
+                var dormRoomList = result.data;
+                var strs = "<option value = ''>" + "请选择" + "</option>";
+                for (var x in dormRoomList) {
+                    if (dormRoomIded == dormRoomList[x].id) {
+                        strs += '<option value = "' + dormRoomList[x].id + '" selected="selected">' + dormRoomList[x].dormRoomNo + '</option>'
+                    } else {
+                        strs += '<option value = "' + dormRoomList[x].id + '">' + dormRoomList[x].dormRoomNo + '</option>'
+                    }
+                }
+                $("#dormRoomId").html(strs);
+                form.render('select');//最后记得渲染
+            }
+        });
+
+        //初始化下拉框数据
+        var dormRoomIded = $("#dormRoomIded").val();//获得选中的option的值
+        $.ajax({
+            url: '/student/getStuByDormRoomId?dormRoomId=' + dormRoomIded,//带参数将这个传到后台条件查询方法里面
+            type: "get",
+            dataType: "json",
+            contentType: "application/json",
+            async: false,//同步
+            success: function (result) {
+                var studentIded = $("#studentIded").val();
+                var studentList = result.data;
+                var strs = "<option value = ''>" + "请选择" + "</option>";
+                for (var x in studentList) {
+                    if (studentIded == studentList[x].id) {
+                        strs += '<option value = "' + studentList[x].id + '" selected="selected">' + studentList[x].stuName + '</option>'
+                    } else {
+                        strs += '<option value = "' + studentList[x].id + '">' + studentList[x].stuName + '</option>'
+                    }
+                }
+                $("#studentId").html(strs);
+                form.render('select');//最后记得渲染
+            }
+        });
+
+
+        //添加layui的监听事件
+
+        form.on('select(dormRoomId)', function (data) {
+            var dormRoomId = $("#dormRoomId").val();//获得选中的option的值
+            $.ajax({
+                url: '/student/getStuByDormRoomId?dormRoomId=' + dormRoomId,//带参数将这个传到后台条件查询方法里面
+                type: "get",
+                dataType: "json",
+                contentType: "application/json",
+                async: false,//同步
+                success: function (result) {
+                    var studentList = result.data;
+                    var strs = "<option value = ''>" + "请选择" + "</option>";
+                    for (var x in studentList) {
+                        strs += '<option value = "' + studentList[x].id + '">' + studentList[x].stuName + '</option>'
+                    }
+                    $("#studentId").html(strs);
+                    form.render('select');//最后记得渲染
+                }
+            });
+        });
+    });
+
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#goAwayTime' //指定元素
+        });
+    });
+</script>
+</body>
+</html>

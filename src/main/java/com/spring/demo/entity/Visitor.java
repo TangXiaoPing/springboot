@@ -6,13 +6,17 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 import com.baomidou.mybatisplus.enums.IdType;
+
 import java.util.Date;
+
 import com.baomidou.mybatisplus.annotations.TableId;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author tangxiaoping123
@@ -28,35 +32,37 @@ public class Visitor implements Serializable {
      * 来访人id
      */
     @TableId(value = "id", type = IdType.AUTO)
-    @ApiModelProperty(value = "来访人id",name = "id")
+    @ApiModelProperty(value = "来访人id", name = "id")
     private Integer id;
-    @ApiModelProperty(value = "",name = "visitorName")
+    @ApiModelProperty(value = "", name = "visitorName")
     private String visitorName;
-    @ApiModelProperty(value = "",name = "visitorPhone")
+    @ApiModelProperty(value = "", name = "visitorPhone")
     private String visitorPhone;
     /**
      * 访问宿舍
      */
-    @ApiModelProperty(value = "访问宿舍",name = "dormRoomId")
+    @ApiModelProperty(value = "访问宿舍", name = "dormRoomId")
     private Integer dormRoomId;
     /**
      * 访问学生
      */
-    @ApiModelProperty(value = "访问学生",name = "studentId")
+    @ApiModelProperty(value = "访问学生", name = "studentId")
     private Integer studentId;
     /**
      * 访问时间
      */
-    @ApiModelProperty(value = "访问时间",name = "visitorTime")
+    @ApiModelProperty(value = "访问时间", name = "visitorTime")
     private Date visitorTime;
     /**
      * 离开时间
      */
-    @ApiModelProperty(value = "离开时间",name = "goAwayTime")
+    @ApiModelProperty(value = "离开时间", name = "goAwayTime")
+    //解决时间类型参数报错问题
+    @DateTimeFormat(pattern = "yyyy-mm-dd")
     private Date goAwayTime;
-    @ApiModelProperty(value = "",name = "createTime")
+    @ApiModelProperty(value = "", name = "createTime")
     private Date createTime;
-    @ApiModelProperty(value = "",name = "updateTime")
+    @ApiModelProperty(value = "", name = "updateTime")
     private Date updateTime;
 
 
@@ -135,15 +141,15 @@ public class Visitor implements Serializable {
     @Override
     public String toString() {
         return "Visitor{" +
-        ", id=" + id +
-        ", visitorName=" + visitorName +
-        ", visitorPhone=" + visitorPhone +
-        ", dormRoomId=" + dormRoomId +
-        ", studentId=" + studentId +
-        ", visitorTime=" + visitorTime +
-        ", goAwayTime=" + goAwayTime +
-        ", createTime=" + createTime +
-        ", updateTime=" + updateTime +
-        "}";
+                ", id=" + id +
+                ", visitorName=" + visitorName +
+                ", visitorPhone=" + visitorPhone +
+                ", dormRoomId=" + dormRoomId +
+                ", studentId=" + studentId +
+                ", visitorTime=" + visitorTime +
+                ", goAwayTime=" + goAwayTime +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                "}";
     }
 }
