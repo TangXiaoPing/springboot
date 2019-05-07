@@ -29,7 +29,7 @@ public class MybatisPlusGenerator {
 
     public void autoGeneration() {
         GlobalConfig config = new GlobalConfig();
-        String dbUrl = "jdbc:mysql://localhost:3306/demo?characterEncoding=utf8&useSSL=false";
+        String dbUrl = "jdbc:mysql://localhost:3306/student?characterEncoding=utf8&useSSL=false";
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
         AutoGenerator generator = new AutoGenerator();
         dataSourceConfig.setDbType(DbType.MYSQL)

@@ -5,9 +5,9 @@ $(function () {
             , form = layui.form;
 
         tableIns = table.render({
-            elem: '#foodInfoList'
-            , url: '/foodInfo/getFoodInfos'
-            , method: 'post' //默认：get请求
+            elem: '#visitorList'
+            , url: '/visitor/getVisitorList'
+            , method: 'get' //默认：get请求
             , cellMinWidth: 80
             , page: true
             , request: {
@@ -20,16 +20,21 @@ $(function () {
                 , dataName: 'list' //数据列表的字段名称，默认：data
             }
             , cols: [[ //表头
-                {type: 'checkbox', fixed: 'left'}
-                , {field: 'id', title: '维修编号', width: 30, sort: true, fixed: 'left'}
-                , {field: 'buildingName', title: '楼栋名称', width: 180}
-                , {field: 'rid', title: '宿舍编号', width: 180}
-                , {field: 'name', title: '报修人', width: 70}
-                , {field: 'createDate', title: '报修时间', width: 100}
-                , {field: 'detail', title: '报修内容', width: 100}
-                , {field: 'repairType', title: '报修类型', width: 100}
-                , {field: 'status', title: '处理状态', width: 100}
-                , {fixed: 'right', width: 165, align: 'center', toolbar: '#barDemo'}
+                {field: 'visitorName', title: '访问者姓名', sort: true, fixed: 'left'}
+                , {field: 'visitorPhone', title: '访问者电话'}
+                , {field: 'dormRoomId', title: '访问宿舍id'}
+                , {field: 'studentId', title: '访问学生id'}
+                , {
+                    field: 'visitorTime',
+                    title: '访问时间',
+                    templet: '<div>{{ Format(d.visitorTime,"yyyy-MM-dd hh:mm:ss")}}</div>}'
+                }
+                , {
+                    field: 'goAwayTime',
+                    title: '离开时间',
+                    templet: '<div>{{ Format(d.goAwayTime,"yyyy-MM-dd hh:mm:ss")}}</div>}'
+                }
+                , {fixed: 'right', align: 'center', toolbar: '#optBar'}
             ]]
             , done: function (res, curr, count) {
                 //如果是异步请求数据方式，res即为你接口返回的信息。
@@ -40,7 +45,6 @@ $(function () {
                 //得到数据总量
                 // console.log(count);
                 $("[data-field='status']").children().each(function () {
-                    alert($(this).text() + "flag=" + $(this).text() == '0')
                     if ($(this).text() == '0') {
                         $(this).text("已处理")
                     } else {

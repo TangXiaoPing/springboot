@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='wyait后台管理'"></head>
+
+<body>
+<div th:fragment="role">
+
+    <form id="customerInfo" class="layui-form" action="#" method="post">
+        <input type="hidden" id="foodInfoId" name="foodInfoId" th:value="${foodInfo.foodInfoId}"/>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品名称：</label>
+            <div class="layui-input-block">
+                <input type="text" name="foodInfoName" lay-verify="required" autocomplete="off" class="layui-input"
+                       th:value="${foodInfo.foodInfoName}"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-block">
+                <label class="layui-form-label">商品图片：</label>
+                <div class="layui-table-cell laytable-cell-1-avatar">
+                    <img id="showImage" style="height: 100%" th:src="${foodInfo.images}">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品价格：</label>
+            <div class="layui-input-block">
+                <input type="text" name="price" lay-verify="required" autocomplete="off" class="layui-input"
+                       th:value="${foodInfo.price}+'RMB'"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品重量：</label>
+            <div class="layui-input-block">
+                <input type="text" name="foodWeight" lay-verify="required" autocomplete="off" class="layui-input"
+                       th:value="${foodInfo.foodWeight}"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">一级分类：</label>
+            <div class="layui-input-block">
+                <input type="text" name="oneMenuName" lay-verify="required" autocomplete="off" class="layui-input"
+                       th:value="${oneMenu.oneMenuName}"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">二级分类：</label>
+            <div class="layui-input-block">
+                <input type="text" name="secondMenuName" lay-verify="required" autocomplete="off" class="layui-input"
+                       th:value="${secondMenu.secondMenuName}"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品描述：</label>
+            <div class="layui-input-block">
+                <input type="text" name="description" lay-verify="required" autocomplete="off" class="layui-input"
+                       th:value="${foodInfo.description}"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否上架：</label>
+            <div class="layui-input-block">
+                <input th:if="${foodInfo.foodInfoStatus!='1'}" type="text" name="foodInfoStatus" lay-verify=""
+                       placeholder="" autocomplete="off" class="layui-input" value="是"/>
+                <input th:if="${foodInfo.foodInfoStatus=='0'}" type="text" name="foodInfoStatus" lay-verify=""
+                       placeholder="" autocomplete="off" class="layui-input" value="否"/>
+            </div>
+        </div>
+
+    </form>
+</div>
+<script>
+    var img_show = null; // tips提示
+    $('#showImage').hover(function () {
+        var kd = $(this).width();
+        kd1 = kd * 3;          //图片放大倍数
+        kd2 = kd * 3 + 30;       //图片放大倍数
+        var img = "<img class='img_msg' src='" + $(this).attr('src') + "' style='width:" + kd1 + "px;' />";
+        img_show = layer.tips(img, this, {
+            tips: [2, 'rgba(41,41,41,.5)']
+            , area: [kd2 + 'px']
+        });
+    }, function () {
+        layer.close(img_show);
+    });
+    $('#showImage').attr('style', 'max-width:70px;display:block!important');
+</script>
+</body>
+</html>
