@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="layout :: htmlhead" th:with="title='用户管理'"></head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--头-->
+    <div th:replace="fragments/head :: header"></div>
+
+    <div class="layui-body" style="margin: 1%">
+
+        <form id="foodInfoSearch" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label">商品名称</label>
+                <div class="layui-input-inline">
+                    <input id="foodInfoName" name="foodInfoName" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">商品状态</label>
+                    <div class="layui-input-inline">
+                        <select name="foodInfoStatus" lay-search="">
+                            <option value="">请选择状态</option>
+                            <option value="0">已下架</option>
+                            <option value="1">已上架</option>
+                            <option value="2">热门早餐</option>
+                            <option value="3">本周新品</option>
+                            <option value="4">人气早餐</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                <button class="layui-btn" lay-submit="" lay-filter="searchSubmit">搜索</button>
+            </div>
+        </form>
+        <button class="layui-btn" lay-submit="" id="addFoodInfo" style="float: right">添加</button>
+        <!--<hr class="layui-bg-blue"/>-->
+        <hr class="layui-bg-black"/>
+
+        <div style="display:none;" id="currentFoodInfo">
+            <shiro:principal property="id"></shiro:principal>
+        </div>
+
+        <table id="foodInfoList" lay-filter="foodInfoTable"></table>
+
+        <script type="text/html" id="optBar">
+            <a class="layui-btn layui-btn-xs" lay-event="lookFoodInfo">查看</a>
+            <a class="layui-btn layui-btn-xs" lay-event="editFoodInfo">编辑</a>
+            <a class="layui-btn layui-btn-xs" lay-event="delFoodInfo">删除</a>
+        </script>
+
+    </div>
+    <!--底部-->
+    <!--<div th:replace="fragments/footer :: footer"></div>-->
+    <script src="/js/dateUtils.js"></script>
+    <script src="/js/auth/foodInfoList.js"></script>
+
+</div>
+
+<script>
+    $("#addFoodInfo").click(function () {
+        layer.open({
+            type: 2,
+            title: '添加商品',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['60%', '70%'],
+            content: '/foodInfo/addFoodInfo'
+        });
+    })
+</script>
+</body>
+</html>
