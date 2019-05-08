@@ -7,6 +7,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.io.Serializable;
@@ -35,26 +37,31 @@ public class CleanCheck implements Serializable {
      * 宿舍id
      */
     @ApiModelProperty(value = "宿舍id", name = "dormRoomId")
+    @NotEmpty(message = "宿舍不能为空")
     private Integer dormRoomId;
     /**
      * 检查人
      */
     @ApiModelProperty(value = "检查人", name = "dormRoomAdminId")
+    @NotEmpty(message = "检查人不能为空")
     private Integer dormRoomAdminId;
     /**
      * 检查周数
      */
     @ApiModelProperty(value = "检查周数", name = "checkTime")
+    @NotEmpty(message = "检查周数不能为空")
     private Integer checkTime;
     /**
      * 成绩
      */
     @ApiModelProperty(value = "成绩", name = "grade")
+    @NotEmpty(message = "成绩不能为空")
     private BigDecimal grade;
     /**
      * 描述
      */
     @ApiModelProperty(value = "描述", name = "description")
+    @NotBlank(message = "描述不能为空")
     private String description;
     @ApiModelProperty(value = "", name = "createTime")
     private Date createTime;

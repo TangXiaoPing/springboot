@@ -8,6 +8,8 @@ import io.swagger.annotations.ApiModelProperty;
 import com.baomidou.mybatisplus.enums.IdType;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableId;
+
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
@@ -34,11 +36,13 @@ public class Department implements Serializable {
      * 院系编号
      */
     @ApiModelProperty(value = "院系编号",name = "departmentNo")
+    @NotBlank(message = "院系编号不能为空")
     private String departmentNo;
     /**
      * 院系名称
      */
     @ApiModelProperty(value = "院系名称",name = "departmentName")
+    @NotBlank(message = "院系编号不能为空")
     private String departmentName;
     /**
      * 院系描述

@@ -6,13 +6,17 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 import com.baomidou.mybatisplus.enums.IdType;
+
 import java.util.Date;
+
 import com.baomidou.mybatisplus.annotations.TableId;
+
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author tangxiaoping123
@@ -28,26 +32,28 @@ public class DormRoomAdmin implements Serializable {
      * 宿舍管理员id
      */
     @TableId(value = "id", type = IdType.AUTO)
-    @ApiModelProperty(value = "宿舍管理员id",name = "id")
+    @ApiModelProperty(value = "宿舍管理员id", name = "id")
     private Integer id;
     /**
      * 管理员姓名
      */
-    @ApiModelProperty(value = "管理员姓名",name = "name")
+    @ApiModelProperty(value = "管理员姓名", name = "name")
+    @NotBlank(message = "管理员姓名不能为空")
     private String name;
     /**
      * 管理员电话
      */
-    @ApiModelProperty(value = "管理员电话",name = "phone")
+    @ApiModelProperty(value = "管理员电话", name = "phone")
+    @NotBlank(message = "管理员电话不能为空")
     private String phone;
     /**
      * 1-在职 0-离职
      */
-    @ApiModelProperty(value = "1-在职 0-离职",name = "status")
+    @ApiModelProperty(value = "1-在职 0-离职", name = "status")
     private Integer status;
-    @ApiModelProperty(value = "",name = "createTime")
+    @ApiModelProperty(value = "", name = "createTime")
     private Date createTime;
-    @ApiModelProperty(value = "",name = "updateTime")
+    @ApiModelProperty(value = "", name = "updateTime")
     private Date updateTime;
 
 
@@ -102,12 +108,12 @@ public class DormRoomAdmin implements Serializable {
     @Override
     public String toString() {
         return "DormRoomAdmin{" +
-        ", id=" + id +
-        ", name=" + name +
-        ", phone=" + phone +
-        ", status=" + status +
-        ", createTime=" + createTime +
-        ", updateTime=" + updateTime +
-        "}";
+                ", id=" + id +
+                ", name=" + name +
+                ", phone=" + phone +
+                ", status=" + status +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                "}";
     }
 }

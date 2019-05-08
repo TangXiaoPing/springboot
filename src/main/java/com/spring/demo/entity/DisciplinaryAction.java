@@ -6,13 +6,19 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 import com.baomidou.mybatisplus.enums.IdType;
+
 import java.util.Date;
+
 import com.baomidou.mybatisplus.annotations.TableId;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author tangxiaoping123
@@ -28,33 +34,38 @@ public class DisciplinaryAction implements Serializable {
      * 违纪处分表id
      */
     @TableId(value = "id", type = IdType.AUTO)
-    @ApiModelProperty(value = "违纪处分表id",name = "id")
+    @ApiModelProperty(value = "违纪处分表id", name = "id")
     private Integer id;
-    @ApiModelProperty(value = "",name = "studentId")
+    @ApiModelProperty(value = "", name = "studentId")
+    @NotEmpty(message = "学生ID不能为空")
     private Integer studentId;
     /**
      * 管理员id
      */
-    @ApiModelProperty(value = "管理员id",name = "dormRoomAdminId")
+    @ApiModelProperty(value = "管理员id", name = "dormRoomAdminId")
+    @NotEmpty(message = "管理员id不能为空")
     private Integer dormRoomAdminId;
     /**
      * 违纪时间
      */
-    @ApiModelProperty(value = "违纪时间",name = "recordTime")
+    @ApiModelProperty(value = "违纪时间", name = "recordTime")
+    @DateTimeFormat(pattern = "yyyy-mm-dd")
     private Date recordTime;
     /**
      * 1-晚归 0-违纪
      */
-    @ApiModelProperty(value = "1-晚归 0-违纪",name = "disciplinaryType")
+    @ApiModelProperty(value = "1-晚归 0-违纪", name = "disciplinaryType")
+    @NotEmpty(message = "违规类型不能为空")
     private Integer disciplinaryType;
     /**
      * 违规描述
      */
-    @ApiModelProperty(value = "违规描述",name = "description")
+    @ApiModelProperty(value = "违规描述", name = "description")
+    @NotBlank(message = "违规描述不能为空")
     private String description;
-    @ApiModelProperty(value = "",name = "createTime")
+    @ApiModelProperty(value = "", name = "createTime")
     private Date createTime;
-    @ApiModelProperty(value = "",name = "updateTime")
+    @ApiModelProperty(value = "", name = "updateTime")
     private Date updateTime;
 
 
@@ -125,14 +136,14 @@ public class DisciplinaryAction implements Serializable {
     @Override
     public String toString() {
         return "DisciplinaryAction{" +
-        ", id=" + id +
-        ", studentId=" + studentId +
-        ", dormRoomAdminId=" + dormRoomAdminId +
-        ", recordTime=" + recordTime +
-        ", disciplinaryType=" + disciplinaryType +
-        ", description=" + description +
-        ", createTime=" + createTime +
-        ", updateTime=" + updateTime +
-        "}";
+                ", id=" + id +
+                ", studentId=" + studentId +
+                ", dormRoomAdminId=" + dormRoomAdminId +
+                ", recordTime=" + recordTime +
+                ", disciplinaryType=" + disciplinaryType +
+                ", description=" + description +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                "}";
     }
 }

@@ -6,14 +6,20 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 import com.baomidou.mybatisplus.enums.IdType;
+
 import java.math.BigDecimal;
 import java.util.Date;
+
 import com.baomidou.mybatisplus.annotations.TableId;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author tangxiaoping123
@@ -29,46 +35,51 @@ public class Fee implements Serializable {
      * 费用表id
      */
     @TableId(value = "id", type = IdType.AUTO)
-    @ApiModelProperty(value = "费用表id",name = "id")
+    @ApiModelProperty(value = "费用表id", name = "id")
     private Integer id;
     /**
      * 宿舍id
      */
-    @ApiModelProperty(value = "宿舍id",name = "dormRoomId")
+    @ApiModelProperty(value = "宿舍id", name = "dormRoomId")
+    @NotEmpty(message = "宿舍id不能为空")
     private Integer dormRoomId;
     /**
      * 管理员id--录入的管理员
      */
-    @ApiModelProperty(value = "管理员id--录入的管理员",name = "dormRoomAdminId")
+    @ApiModelProperty(value = "管理员id--录入的管理员", name = "dormRoomAdminId")
+    @NotEmpty(message = "管理员id不能为空")
     private Integer dormRoomAdminId;
     /**
      * 水费
      */
-    @ApiModelProperty(value = "水费",name = "waterFee")
+    @ApiModelProperty(value = "水费", name = "waterFee")
+    @NotEmpty(message = "水费不能为空")
     private BigDecimal waterFee;
     /**
      * 电费
      */
-    @ApiModelProperty(value = "电费",name = "electricityFee")
+    @ApiModelProperty(value = "电费", name = "electricityFee")
+    @NotEmpty(message = "电费不能为空")
     private BigDecimal electricityFee;
     /**
      * 缴纳时间
      */
-    @ApiModelProperty(value = "缴纳时间",name = "payTime")
+    @ApiModelProperty(value = "缴纳时间", name = "payTime")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date payTime;
     /**
      * 缴费周数
      */
-    @ApiModelProperty(value = "缴费周数",name = "feeTime")
+    @ApiModelProperty(value = "缴费周数", name = "feeTime")
     private Integer feeTime;
     /**
      * 1-已缴纳 0-未缴纳
      */
-    @ApiModelProperty(value = "1-已缴纳 0-未缴纳",name = "status")
+    @ApiModelProperty(value = "1-已缴纳 0-未缴纳", name = "status")
     private Integer status;
-    @ApiModelProperty(value = "",name = "createTime")
+    @ApiModelProperty(value = "", name = "createTime")
     private Date createTime;
-    @ApiModelProperty(value = "",name = "updateTime")
+    @ApiModelProperty(value = "", name = "updateTime")
     private Date updateTime;
 
 
@@ -155,16 +166,16 @@ public class Fee implements Serializable {
     @Override
     public String toString() {
         return "Fee{" +
-        ", id=" + id +
-        ", dormRoomId=" + dormRoomId +
-        ", dormRoomAdminId=" + dormRoomAdminId +
-        ", waterFee=" + waterFee +
-        ", electricityFee=" + electricityFee +
-        ", payTime=" + payTime +
-        ", feeTime=" + feeTime +
-        ", status=" + status +
-        ", createTime=" + createTime +
-        ", updateTime=" + updateTime +
-        "}";
+                ", id=" + id +
+                ", dormRoomId=" + dormRoomId +
+                ", dormRoomAdminId=" + dormRoomAdminId +
+                ", waterFee=" + waterFee +
+                ", electricityFee=" + electricityFee +
+                ", payTime=" + payTime +
+                ", feeTime=" + feeTime +
+                ", status=" + status +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                "}";
     }
 }

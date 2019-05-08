@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.io.Serializable;
 
@@ -31,16 +32,19 @@ public class Admin implements Serializable {
      * 管理员昵称
      */
     @ApiModelProperty(value = "管理员昵称",name = "nickname")
+    @NotBlank(message = "管理员昵称不能为空")
     private String nickname;
     /**
      * 管理员账号
      */
     @ApiModelProperty(value = "管理员账号",name = "loginName")
+    @NotBlank(message = "管理员账号不能为空")
     private String loginName;
     /**
      * 管理员密码
      */
     @ApiModelProperty(value = "管理员密码",name = "passwd")
+    @NotBlank(message = "管理员密码不能为空")
     private String passwd;
     /**
      * 管理员状态1-可用 0-不可用

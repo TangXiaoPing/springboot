@@ -6,13 +6,17 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 import com.baomidou.mybatisplus.enums.IdType;
+
 import java.util.Date;
+
 import com.baomidou.mybatisplus.annotations.TableId;
+
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author tangxiaoping123
@@ -28,21 +32,23 @@ public class Dorm implements Serializable {
      * 宿舍楼id
      */
     @TableId(value = "id", type = IdType.AUTO)
-    @ApiModelProperty(value = "宿舍楼id",name = "id")
+    @ApiModelProperty(value = "宿舍楼id", name = "id")
     private Integer id;
     /**
      * 宿舍楼编号
      */
-    @ApiModelProperty(value = "宿舍楼编号",name = "dormNo")
+    @ApiModelProperty(value = "宿舍楼编号", name = "dormNo")
+    @NotBlank(message = "宿舍楼编号不能为空")
     private String dormNo;
     /**
      * 宿舍楼名称
      */
-    @ApiModelProperty(value = "宿舍楼名称",name = "dormName")
+    @ApiModelProperty(value = "宿舍楼名称", name = "dormName")
+    @NotBlank(message = "宿舍楼名称不能为空")
     private String dormName;
-    @ApiModelProperty(value = "",name = "createTime")
+    @ApiModelProperty(value = "", name = "createTime")
     private Date createTime;
-    @ApiModelProperty(value = "",name = "updateTime")
+    @ApiModelProperty(value = "", name = "updateTime")
     private Date updateTime;
 
 
@@ -89,11 +95,11 @@ public class Dorm implements Serializable {
     @Override
     public String toString() {
         return "Dorm{" +
-        ", id=" + id +
-        ", dormNo=" + dormNo +
-        ", dormName=" + dormName +
-        ", createTime=" + createTime +
-        ", updateTime=" + updateTime +
-        "}";
+                ", id=" + id +
+                ", dormNo=" + dormNo +
+                ", dormName=" + dormName +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                "}";
     }
 }
