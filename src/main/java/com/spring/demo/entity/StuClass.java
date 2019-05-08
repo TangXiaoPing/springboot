@@ -1,6 +1,8 @@
 package com.spring.demo.entity;
 
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -10,7 +12,7 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author tangxiaoping123
@@ -25,36 +27,37 @@ public class StuClass implements Serializable {
     /**
      * 班级表id
      */
-    @ApiModelProperty(value = "班级表id",name = "id")
+    @TableId(value = "id", type = IdType.AUTO)
+    @ApiModelProperty(value = "班级表id", name = "id")
     private Integer id;
     /**
      * 院系id
      */
-    @ApiModelProperty(value = "院系id",name = "departmentId")
+    @ApiModelProperty(value = "院系id", name = "departmentId")
     private Integer departmentId;
     /**
      * 班级编号
      */
-    @ApiModelProperty(value = "班级编号",name = "classNo")
+    @ApiModelProperty(value = "班级编号", name = "classNo")
     private String classNo;
     /**
      * 班级名称
      */
-    @ApiModelProperty(value = "班级名称",name = "className")
+    @ApiModelProperty(value = "班级名称", name = "className")
     private String className;
     /**
      * 班级招收学生数量
      */
-    @ApiModelProperty(value = "班级招收学生数量",name = "classNum")
+    @ApiModelProperty(value = "班级招收学生数量", name = "classNum")
     private Integer classNum;
     /**
      * 班级状态 1-开班 0-不开班
      */
-    @ApiModelProperty(value = "班级状态 1-开班 0-不开班",name = "classStatus")
+    @ApiModelProperty(value = "班级状态 1-开班 0-不开班", name = "classStatus")
     private Integer classStatus;
-    @ApiModelProperty(value = "",name = "createTime")
+    @ApiModelProperty(value = "", name = "createTime")
     private Date createTime;
-    @ApiModelProperty(value = "",name = "updateTime")
+    @ApiModelProperty(value = "", name = "updateTime")
     private Date updateTime;
 
 
@@ -125,14 +128,14 @@ public class StuClass implements Serializable {
     @Override
     public String toString() {
         return "StuClass{" +
-        ", id=" + id +
-        ", departmentId=" + departmentId +
-        ", classNo=" + classNo +
-        ", className=" + className +
-        ", classNum=" + classNum +
-        ", classStatus=" + classStatus +
-        ", createTime=" + createTime +
-        ", updateTime=" + updateTime +
-        "}";
+                ", id=" + id +
+                ", departmentId=" + departmentId +
+                ", classNo=" + classNo +
+                ", className=" + className +
+                ", classNum=" + classNum +
+                ", classStatus=" + classStatus +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                "}";
     }
 }

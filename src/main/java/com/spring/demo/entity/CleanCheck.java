@@ -1,6 +1,8 @@
 package com.spring.demo.entity;
 
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -26,6 +28,7 @@ public class CleanCheck implements Serializable {
     /**
      * 卫生检查表id
      */
+    @TableId(value = "id", type = IdType.AUTO)
     @ApiModelProperty(value = "卫生检查表id",name = "id")
     private Integer id;
     /**

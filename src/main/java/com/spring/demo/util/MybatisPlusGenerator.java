@@ -21,8 +21,8 @@ public class MybatisPlusGenerator {
     }
 
     private static MybatisPlusGenerator getSingle() {
-        if(single == null) {
-            single =new MybatisPlusGenerator();
+        if (single == null) {
+            single = new MybatisPlusGenerator();
         }
         return single;
     }
@@ -32,14 +32,22 @@ public class MybatisPlusGenerator {
         String dbUrl = "jdbc:mysql://localhost:3306/student?characterEncoding=utf8&useSSL=false";
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
         AutoGenerator generator = new AutoGenerator();
+
+//        String[] tables = {"r_basic_company_service", "r_basic_role_menu", "r_basic_service_menu"};
+        /**
+         * table前缀,对应tables的位置
+         */
+//        String[] prefix = {"r_basic", "t_basic", "t_matrix", "t_node"};
+        String[] tables = {"role", "permission"};
+
         dataSourceConfig.setDbType(DbType.MYSQL)
                 .setUrl(dbUrl)
                 .setUsername("root")
                 .setPassword("123456")
                 .setDriverName("com.mysql.jdbc.Driver");
         StrategyConfig strategyConfig = new StrategyConfig();
-        strategyConfig
-                .setCapitalMode(true)
+        strategyConfig.setCapitalMode(true)
+                .setInclude(tables)
                 .setEntityLombokModel(false)
                 .setDbColumnUnderline(true)
                 .setNaming(NamingStrategy.underline_to_camel);
