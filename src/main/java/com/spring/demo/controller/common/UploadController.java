@@ -14,7 +14,6 @@ import java.util.UUID;
 @RequestMapping("/upload")
 public class UploadController {
 
-
     @RequestMapping(value = "/imageUpload", method = RequestMethod.POST)
     public String imageUpload(MultipartFile file) throws IOException {
         String fileUrl = "image/" + UUID.randomUUID().toString().replace("-", "") + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") - 1);

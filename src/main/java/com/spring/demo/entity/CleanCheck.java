@@ -13,7 +13,7 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author tangxiaoping123
@@ -29,31 +29,36 @@ public class CleanCheck implements Serializable {
      * 卫生检查表id
      */
     @TableId(value = "id", type = IdType.AUTO)
-    @ApiModelProperty(value = "卫生检查表id",name = "id")
+    @ApiModelProperty(value = "卫生检查表id", name = "id")
     private Integer id;
+    /**
+     * 宿舍id
+     */
+    @ApiModelProperty(value = "宿舍id", name = "dormRoomId")
+    private Integer dormRoomId;
     /**
      * 检查人
      */
-    @ApiModelProperty(value = "检查人",name = "dormRoomAdminId")
+    @ApiModelProperty(value = "检查人", name = "dormRoomAdminId")
     private Integer dormRoomAdminId;
     /**
      * 检查周数
      */
-    @ApiModelProperty(value = "检查周数",name = "checkTime")
+    @ApiModelProperty(value = "检查周数", name = "checkTime")
     private Integer checkTime;
     /**
      * 成绩
      */
-    @ApiModelProperty(value = "成绩",name = "grade")
+    @ApiModelProperty(value = "成绩", name = "grade")
     private BigDecimal grade;
     /**
      * 描述
      */
-    @ApiModelProperty(value = "描述",name = "description")
+    @ApiModelProperty(value = "描述", name = "description")
     private String description;
-    @ApiModelProperty(value = "",name = "createTime")
+    @ApiModelProperty(value = "", name = "createTime")
     private Date createTime;
-    @ApiModelProperty(value = "",name = "updateTime")
+    @ApiModelProperty(value = "", name = "updateTime")
     private Date updateTime;
 
 
@@ -116,13 +121,13 @@ public class CleanCheck implements Serializable {
     @Override
     public String toString() {
         return "CleanCheck{" +
-        ", id=" + id +
-        ", dormRoomAdminId=" + dormRoomAdminId +
-        ", checkTime=" + checkTime +
-        ", grade=" + grade +
-        ", description=" + description +
-        ", createTime=" + createTime +
-        ", updateTime=" + updateTime +
-        "}";
+                ", id=" + id +
+                ", dormRoomAdminId=" + dormRoomAdminId +
+                ", checkTime=" + checkTime +
+                ", grade=" + grade +
+                ", description=" + description +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                "}";
     }
 }

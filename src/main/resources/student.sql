@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50643
 File Encoding         : 65001
 
-Date: 2019-05-07 13:49:30
+Date: 2019-05-08 11:23:42
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,7 +20,7 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `admin`;
 CREATE TABLE `admin` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nickname` varchar(50) DEFAULT NULL COMMENT '管理员昵称',
   `login_name` varchar(50) DEFAULT NULL COMMENT '管理员账号',
   `passwd` varchar(50) DEFAULT NULL COMMENT '管理员密码',
@@ -40,7 +40,7 @@ CREATE TABLE `admin` (
 -- ----------------------------
 DROP TABLE IF EXISTS `clean_check`;
 CREATE TABLE `clean_check` (
-  `id` int(11) NOT NULL DEFAULT '0' COMMENT '卫生检查表id',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '卫生检查表id',
   `dorm_room_admin_id` int(11) DEFAULT NULL COMMENT '检查人',
   `check_time` int(11) DEFAULT NULL COMMENT '检查周数',
   `grade` decimal(11,2) DEFAULT NULL COMMENT '成绩',
@@ -115,6 +115,7 @@ CREATE TABLE `dorm` (
 DROP TABLE IF EXISTS `dorm_room`;
 CREATE TABLE `dorm_room` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '宿舍id',
+  `dorm_id` int(11) DEFAULT NULL COMMENT '所属宿舍楼',
   `department_id` int(11) DEFAULT NULL COMMENT '所属院系',
   `dorm_room_no` varchar(30) DEFAULT '' COMMENT '宿舍编号',
   `dorm_room_num` int(3) DEFAULT '4' COMMENT '宿舍人数',
@@ -248,7 +249,7 @@ CREATE TABLE `student` (
 -- ----------------------------
 DROP TABLE IF EXISTS `stu_class`;
 CREATE TABLE `stu_class` (
-  `id` int(11) NOT NULL DEFAULT '0' COMMENT '班级表id',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '班级表id',
   `department_id` int(11) DEFAULT NULL COMMENT '院系id',
   `class_no` varchar(30) DEFAULT NULL COMMENT '班级编号',
   `class_name` varchar(30) DEFAULT NULL COMMENT '班级名称',
@@ -278,8 +279,9 @@ CREATE TABLE `visitor` (
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of visitor
 -- ----------------------------
+INSERT INTO `visitor` VALUES ('1', 'test', '12345678910', '1', '1', '2019-05-07 16:34:04', '2019-05-08 16:34:12', '2019-05-07 16:34:15', null);
