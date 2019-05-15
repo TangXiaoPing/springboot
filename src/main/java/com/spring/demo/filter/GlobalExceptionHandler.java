@@ -1,6 +1,6 @@
-package com.spring.demo.exception;
+package com.spring.demo.filter;
 
-import com.spring.demo.constant.UcenterResult;
+import com.spring.demo.base.UcenterResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindException;

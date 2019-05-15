@@ -1,7 +1,7 @@
-package com.spring.demo.constant;
+package com.spring.demo.base;
 
 
-import com.spring.demo.base.BaseResult;
+import com.spring.demo.enums.UcenterResultConstant;
 
 /**
  * ucenter系统常量枚举类

@@ -1,4 +1,4 @@
-package com.spring.demo.constant;
+package com.spring.demo.enums;
 
 /**
  * ucenter系统接口结果常量枚举类
